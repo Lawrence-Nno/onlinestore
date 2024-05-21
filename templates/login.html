@@ -1,0 +1,37 @@
+{% extends "header.html" %}
+{% block content %}
+    <section id="login">
+      <div class="login-logo text-center">
+        <img src="{{url_for('static', filename='images/pinklogo.png')}}" alt="blacnwyte logo">
+      </div>
+      <h4 class="text-center">Welcome to BlacnWyte Hair Store</h4>
+      <p class="text-center">Type your e-mail and password to log in.</p>
+      <div class="loginform">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            <ul class=flashes>
+            {% for category, message in messages %}
+              <li class="{{ category }}">{{ message }}</li>
+            {% endfor %}
+            </ul>
+          {% endif %}
+        {% endwith %}
+        <form method="POST">
+          {{ form.hidden_tag() }}
+          {{ form.email }}
+          <div class="password-wrapper">
+            {{ form.password(id="password") }}
+            <i class="toggle-password" id="togglePassword">👁️</i>
+          </div>
+          <div class="reset-password">
+            {% if reset: %}
+              <a href="{{ url_for('password_reset_link', email=form.email.data) }}">Reset Password</a>
+            {% endif %}
+          </div>
+          <div class="text-center d-grid gap-2 col-6 mx-auto">
+            {{ form.submit }}
+          </div>
+        </form>
+      </div>
+    </section>
+{% endblock %}

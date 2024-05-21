@@ -1,0 +1,11 @@
+{% extends "header.html" %}
+{% block content %}
+    <section id="checkout">
+      <form method="POST">
+        {{ form.hidden_tag() }}
+        {{ form.email.label }} {{ form.email }}
+        {{ form.amount.label }} {{ form.amount }}
+        {{ form.submit }}
+      </form>
+    </section>
+{% endblock %}

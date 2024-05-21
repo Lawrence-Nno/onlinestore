@@ -1,0 +1,42 @@
+{% extends "header.html" %}
+{% block content %}
+    <section id="order">
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          <ul class='flashes text-center'>
+          {% for category, message in messages %}
+            <li class="{{ category }}">{{ message }}</li>
+          {% endfor %}
+          </ul>
+        {% endif %}
+      {% endwith %}
+      <table id="order-table" class="table table-striped table-bordered text-center">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Products</th>
+            <th scope="col">Name</th>
+            <th scope="col">Price</th>
+            <th scope="col">Quantity</th>
+            <th scope="col">SubTotal</th>
+            <th scope="col">Reference</th>
+            <th scope="col">Status</th>
+          </tr>
+        </thead>
+        <tbody class="table-group-divider">
+        {% for num, item in orders %}
+          <tr>
+            <td scope="row">{{ num }}</td>
+            <td><img src="{{ url_for('static', filename=item.product.image) }}" alt="image" class="cart-image"></td>
+            <td>{{ item.product.name }}</td>
+            <td>₦{{ item.product.price }}</td>
+            <td>{{ item.quantity }}</td>
+            <td>₦{{ item.subtotal }}</td>
+            <td>{{ item.reference }}</td>
+            <td>{{ item.status }}</td>
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    </section>
+{% endblock %}

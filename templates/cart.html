@@ -1,0 +1,79 @@
+{% extends "header.html" %}
+{% block content %}
+    <section id="cart">
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          <ul class='flashes text-center'>
+          {% for category, message in messages %}
+            <li class="{{ category }}">{{ message }}</li>
+          {% endfor %}
+          </ul>
+        {% endif %}
+      {% endwith %}
+      <table id="cart-table" class="table table-striped table-bordered text-center">
+        <thead>
+          <tr>
+            <th scope="col"></th>
+            <th scope="col">Products</th>
+            <th scope="col"></th>
+            <th scope="col">Price</th>
+            <th scope="col">Quantity</th>
+            <th scope="col">SubTotal</th>
+          </tr>
+        </thead>
+        <tbody class="table-group-divider">
+        {% for num, item in products %}
+          <tr>
+            <td scope="row">
+              <form method="POST" action="{{ url_for('all_cart', id=item.id) }}" id="{{ item.id }}" class="cart-btn-form">
+                {{ form.hidden_tag() }} {{ form.submit }}
+              </form>
+            </td>
+            <td><img src="{{ url_for('static', filename=item.product.image) }}" alt="image" class="cart-image"></td>
+            <td>{{ item.product.name }}</td>
+            <td>₦{{ item.product.price }}</td>
+            <td>
+              <form method="POST" action="{{ url_for('all_cart', id=item.id, btn='-') }}" class="cart-btn-form minus">
+                {{ form_dec.hidden_tag() }} {{ form_dec.submit }}
+              </form>
+              {{ item.quantity }}
+              <form method="POST" action="{{ url_for('all_cart', id=item.id, btn='+') }}" class="cart-btn-form plus">
+                {{ form_inc.hidden_tag() }} {{ form_inc.submit }}
+              </form>
+            </td>
+            <td>₦{{ item.subtotal }}</td>
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+      <table class="table cart table-striped table-bordered">
+        <thead>
+          <tr>
+            <th>Cart</th>
+            <th>Totals</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>SubTotal</td>
+            <td>₦{{ subtotal }}</td>
+          </tr>
+          <tr>
+            <td>Discount</td>
+            <td> None </td>
+          </tr>
+          <tr>
+            <td>Shipping</td>
+            <td> ₦{{ shipping_price }} </td>
+          </tr>
+          <tr>
+            <td>Total</td>
+            <td> ₦{{ total }} </td>
+          </tr>
+          <tr>
+            <td colspan="2" class="text-center"><a href="{{ url_for('checkout', total=total) }}" class="btn btn-outline-success">Checkout</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+{% endblock %}

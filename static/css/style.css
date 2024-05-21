@@ -1,0 +1,300 @@
+// <uniquifier>: Use a unique and descriptive class name
+// <weight>: Use a value from 300 to 700
+
+.quicksand-<uniquifier> {
+  font-family: "Quicksand", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: <weight>;
+  font-style: normal;
+}
+body{
+    font-family: "Quicksand", sans-serif;
+    font-optical-sizing: auto;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+main{
+    flex-grow: 1;
+}
+footer{
+    padding: 1rem;
+    background-color: pink;
+    color: white;
+}
+.navbar {
+    --bs-navbar-padding-x: 0;
+    --bs-navbar-padding-y: 0;
+    --bs-navbar-color: rgba(var(--bs-emphasis-color-rgb), 0.65);
+    --bs-navbar-hover-color: rgba(var(--bs-emphasis-color-rgb), 0.8);
+    --bs-navbar-disabled-color: rgba(var(--bs-emphasis-color-rgb), 0.3);
+    --bs-navbar-active-color: rgba(var(--bs-emphasis-color-rgb), 1);
+    --bs-navbar-brand-padding-y: 0.3125rem;
+    --bs-navbar-brand-margin-end: 1rem;
+    --bs-navbar-brand-font-size: 1.25rem;
+    --bs-navbar-brand-color: rgba(var(--bs-emphasis-color-rgb), 1);
+    --bs-navbar-brand-hover-color: rgba(var(--bs-emphasis-color-rgb), 1);
+    --bs-navbar-nav-link-padding-x: 0.5rem;
+    --bs-navbar-toggler-padding-y: 0.25rem;
+    --bs-navbar-toggler-padding-x: 0.75rem;
+    --bs-navbar-toggler-font-size: 1.25rem;
+    --bs-navbar-toggler-icon-bg: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%2833, 37, 41, 0.75%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+    --bs-navbar-toggler-border-color: rgba(var(--bs-emphasis-color-rgb), 0.15);
+    --bs-navbar-toggler-border-radius: var(--bs-border-radius);
+    --bs-navbar-toggler-focus-width: 0.25rem;
+    --bs-navbar-toggler-transition: box-shadow 0.15s ease-in-out;
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--bs-navbar-padding-y) var(--bs-navbar-padding-x);
+}
+
+.btn-outline-success {
+    --bs-btn-color: #FFC0CB;
+    --bs-btn-border-color: #FFC0CB;
+    --bs-btn-hover-color: #fff;
+    --bs-btn-hover-bg: #FFC0CB;
+    --bs-btn-hover-border-color: #FFC0CB;
+    --bs-btn-focus-shadow-rgb: 25,135,84;
+    --bs-btn-active-color: #fff;
+    --bs-btn-active-bg: #FFC0CB;
+    --bs-btn-active-border-color: #FFC0CB;
+    --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+    --bs-btn-disabled-color: #FFC0CB;
+    --bs-btn-disabled-bg: transparent;
+    --bs-btn-disabled-border-color: #FFC0CB;
+    --bs-gradient: none;
+}
+}
+.transparent-navbar {
+    background-color: rgba(255, 255, 255, 0.1);  /* White with 50% opacity */
+    border: none;  /* Remove border for a cleaner look */
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+}
+.transparent-navbar .navbar-nav .nav-link {
+    color: #333;  /* Text color to ensure readability */
+}
+.transparent-navbar .navbar-brand {
+    color: #333;  /* Brand color */
+}
+.form-control.me-2{
+    width: 600px;
+}
+
+/****************************** FLASH MESSAGES ***************************/
+.flashes{
+    list-style-type: none;
+}
+.error{
+    color: brown;
+    font-weight: 600;
+    margin-top: 1rem;
+}
+.success{
+    color: green;
+    font-weight: 600;
+    margin-top: 1rem;
+}
+.danger{
+    color: red;
+    font-weight: 600;
+    margin-top: 1rem;
+}
+.warning{
+    color: gold;
+    font-weight: 600;
+    margin-top: 1rem;
+}
+
+/******************************** OTHERS *********************************/
+.cart-emoji{
+    display: inline;
+    font-size: 2rem;
+}
+.wig-categories{
+    font-size: 1rem;
+}
+.navbar-color{
+    background-color: pink;
+    padding-top: 0.7rem;
+    padding-bottom: 0.7rem;
+}
+.nav-color{
+    color: white !important;
+    font-size: 1rem;
+}
+.nav-color:hover{
+    color: #FF71CD  !important;
+}
+#carouselExampleIndicators{
+    width: 60%;
+    margin: auto;
+}
+.w-100{
+    height: 70vh;
+    object-fit: cover;
+}
+.card{
+    margin: 1rem;
+     width: 20%;
+     display: inline-block;
+}
+.card-body-title{
+    padding-top: 0.5rem;
+}
+.card-img-top{
+    height: 250px;
+    object-fit: cover;
+}
+/************************** DETAILS PAGE ***********************/
+#detail .card{
+     width: 40%;
+}
+#detail .card-img-top{
+    height: 300px;
+    object-fit: contain;
+}
+.product_desc{
+    display: inline-block;
+    position: absolute;
+    margin-top: 1rem;
+}
+/************************** CART PAGE *************************/
+.cart-image{
+    width: 60px;
+    height: 60px;
+    object-fit: contain;
+}
+.table{
+    width: 60%;
+    float: left;
+    margin-top: 1rem;
+    margin-left: 1rem;
+}
+.table.cart{
+    width: 30%;
+    float: right;
+    margin-right: 1rem;
+    margin-top: 1rem;
+}
+.cart-btn-form{
+    display: inline-block;
+}
+.cart-btn-form.plus{
+    margin-left: 0.5rem;
+}
+.cart-btn-form.minus{
+    margin-right: 0.5rem;
+}
+.btn.btn-outline-success.cart{
+    --bs-btn-border-color: #FFC0CB;
+    --bs-btn-padding-x: 0.5rem;
+    --bs-btn-padding-y: 0;
+    --bs-btn-border-radius: 0;
+}
+#cart-table td{
+    vertical-align: middle;
+}
+
+/************************** ORDER PAGE *************************/
+#order .table{
+    width: 70%;
+    float: left;
+    margin-top: 1rem;
+    margin-left: 1rem;
+}
+#order-table td{
+    vertical-align: middle;
+}
+
+/************************ SIGNUP PAGE ***********************/
+.signup{
+    width: 50%;
+    margin: 1rem auto;
+}
+.s{
+    margin-bottom: 1rem;
+}
+.s1{
+    margin-bottom: 1rem;
+}
+
+/**************************** RESET PASSWORD ************************/
+.r{
+    margin-bottom: 1rem;
+}
+.r1{
+    margin-bottom: 1rem;
+}
+
+/************************ LOGIN PAGE **********************/
+.loginform{
+    width: 50%;
+    margin: 1rem auto;
+}
+.login-logo img{
+    width: 10%;
+    object-fit: contain;
+}
+.reset-password{
+    text-align: right;
+}
+
+.toggle-password {
+    position: absolute;
+    right: 10px;
+    cursor: pointer;
+    user-select: none; /* Prevent text selection */
+}
+
+.password-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.login-submit{
+    margin-top: 1rem;
+}
+
+/*********************** SIGNIN PAGE *********************/
+.right-place{
+    color: #47d147;
+    font-weight: 600;
+}
+
+@media screen and (min-width: 1200px) {
+/*  .form-control{
+    width: 40rem;
+}*/
+}
+
+/***************************** MEDIA QUERIES ***********************/
+@media screen and (max-width: 1000px){
+  .card{
+    margin: 0.5rem;
+    width: 130px;
+    font-size: 0.8rem;
+}
+.card-img-top{
+    height: 130px;
+    object-fit: cover;
+}
+  .card h5{
+    font-size: 0.8rem;
+  }
+  .card a{
+    font-size: 0.8rem;
+  }
+#carouselExampleIndicators{
+    width: 90%;
+    margin: auto;
+}
+.w-100{
+    height: 30vh;
+    object-fit: cover;
+}
+}

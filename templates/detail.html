@@ -1,0 +1,24 @@
+{% extends "header.html" %}
+{% block content %}
+    <section id="detail">
+      <div class="container-fluid">
+        <div class="card text-center">
+          <div class="card-body-title">
+            <h5 class="card-title">{{product.name}}</h5>
+          </div>
+          <img src="{{ url_for('static', filename=product.image) }}" class="card-img-top" alt="...">
+          <div class="card-body">
+            <h5 class="card-title mb-2 text-body-secondary">₦{{product.price}}</h5>
+            <form method="POST">
+              {{ form.hidden_tag() }}
+              {{ form.submit }}
+            </form>
+<!--            <a href="{{ url_for('cart', idx=product.id) }}" class="btn btn-outline-success">Add to Cart</a>-->
+          </div>
+        </div>
+        <div class="product_desc">
+          {{ product.desc | safe }}
+        </div>
+      </div>
+    </section>
+{% endblock %}

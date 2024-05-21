@@ -1,0 +1,47 @@
+{% extends "header.html" %}
+{% block content %}
+    <section id="signup" class="">
+      <div class="container-fluid">
+        <div class="login-logo text-center">
+          <img src="{{url_for('static', filename='images/pinklogo.png')}}" alt="blacnwyte logo">
+        </div>
+        <h4 class="text-center">Welcome to BlacnWyte Hair Store</h4>
+        <h6 class="text-center right-place">You've come to the right place.</h6>
+        <p class="text-center">Please sign up and shop with us.</p>
+        <div class="signup">
+          {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+              <ul class='flashes text-center'>
+              {% for category, message in messages %}
+                <li class="{{ category }}">{{ message }}</li>
+              {% endfor %}
+              </ul>
+            {% endif %}
+          {% endwith %}
+          <form method="POST">
+            {{ form.hidden_tag() }}
+            {{ form.firstname }}
+            {{ form.lastname }}
+            {{ form.phone }}
+            {{ form.email }}
+            <div class="password-wrapper s">
+              {{ form.password(id="passwords") }}
+              <i class="toggle-password" id="togglePasswords">👁️</i>
+            </div>
+            <div class="password-wrapper s1">
+              {{ form.confirm(id="passwords1") }}
+              <i class="toggle-password" id="togglePasswords1">👁️</i>
+            </div>
+            {{ form.country.label }} {{ form.country }}
+            {{ form.state.label }} {{ form.state }}
+            {{ form.localgovt }}
+            {{ form.city }}
+            {{ form.address }}
+            <div class="text-center d-grid gap-2 col-6 mx-auto">
+              {{ form.submit }}
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+{% endblock %}

@@ -1,0 +1,21 @@
+{% extends "header.html" %}
+{% block content %}
+<div class="container-fluid text-center">
+  {% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    <ul class='flashes text-center'>
+    {% for category, message in messages %}
+      <li class="{{ category }}">{{ message }}</li>
+    {% endfor %}
+    </ul>
+  {% endif %}
+  {% endwith %}
+  <div class="login-logo text-center">
+    <img src="{{url_for('static', filename='images/pinklogo.png')}}" alt="blacnwyte logo">
+  </div>
+  <h1>Welcome!</h1>
+  <br>
+  <p>You have not confirmed your account. Please check your inbox (and your spam folder) - you should have received an email with a confirmation link.</p>
+  <p>Didn't get the email? <a href="{{ url_for('resend_confirmation') }}">Resend</a>.</p>
+</div>
+{% endblock %}
