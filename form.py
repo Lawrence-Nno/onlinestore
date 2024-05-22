@@ -5,7 +5,7 @@ from wtforms.validators import DataRequired
 
 class Form(FlaskForm):
     idx = IntegerField(label='idx')
-    submit = SubmitField(label="Add to Cart", render_kw={"class": "btn btn-outline-success"})
+    submit = SubmitField(label="Add to Cart", render_kw={"class": "btn btn-outline-success index-add-to-cart"})
 
 
 class SignUpForm(FlaskForm):
