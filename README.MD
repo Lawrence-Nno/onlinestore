@@ -1,4 +1,4 @@
-# ECOMMERCE WEBSHOP
+# E-COMMERCE WEBSHOP
 ## An online store with a payment gateway
 
 This is a full fledged online store platform developed with Flask Python
