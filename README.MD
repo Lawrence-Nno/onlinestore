@@ -26,7 +26,7 @@ This is a full fledged online store platform developed with Flask Python
 
 
 ## Demo
-
+[![GAME DEMO](https://github.com/Lawrence-Nno/onlinestore/blob/master/static/images/demo.png?raw=true)](https://blacnwyte.lawrence-nno.online)
 
 ## Author
 - [Lawrence Nno](lawrence-nno.online)
