@@ -66,7 +66,7 @@
             </li>
             {% if user.email == 'lawrence.nno@gmail.com' or user.is_admin == True %}
               <li class="nav-item ms-3">
-                <a class="nav-link active" href="{{ url_for('admin_panel') }}" aria-current="page">Admin</a>
+                <a class="nav-link active" href="{{ url_for('admin.index') }}" aria-current="page">Admin</a>
               </li>
             {% endif %}
           </ul>
