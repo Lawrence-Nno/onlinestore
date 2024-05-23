@@ -82,7 +82,7 @@ footer{
     color: #333;  /* Brand color */
 }
 .form-control.me-2{
-    width: 600px;
+    width: 550px;
 }
 
 /****************************** FLASH MESSAGES ***************************/
@@ -164,6 +164,9 @@ footer{
     margin-top: 1rem;
 }
 /************************** CART PAGE *************************/
+#cart{
+    margin-top: 1rem;
+}
 .cart-image{
     width: 60px;
     height: 60px;
@@ -282,7 +285,20 @@ footer{
 .pay-btn{
     font-weight: 700;
 }
-/************************** PAY PAGE **************************/
+/************************** PROFILE PAGE **************************/
+#profile{
+    margin-top: 1rem;
+}
+.profile{
+    width: 50%;
+    margin: auto;
+}
+.edit-profile{
+    font-weight: 300;
+}
+.profile-headline{
+    color: pink;
+}
 
 /***************************** MEDIA QUERIES ***********************/
 
@@ -352,5 +368,10 @@ footer{
 
 .pay-btn{
     font-weight: 700;
+}
+/************************** PROFILE PAGE **************************/
+.profile{
+    width: 100%;
+    margin: auto;
 }
 }
