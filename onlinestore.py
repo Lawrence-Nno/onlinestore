@@ -1,4 +1,4 @@
-from flask import Flask, request, redirect, render_template, url_for, flash, abort
+from flask import Flask, request, redirect, render_template, url_for, flash, abort, session
 from flask_admin import Admin, BaseView
 import os.path as op
 import requests
@@ -10,7 +10,7 @@ from flask_migrate import Migrate
 from database import Product, User, Cart, Order, db
 from method_override import HTTPMethodOverrideMiddleware
 from admin_view import ProductView, UserView, OrderView, MyAdminIndexView, RestrictedFileAdmin
-from form import Form, SigninForm, SignUpForm, LoginForm, CartRemoveForm, PayForm, VerifyForm, ResetPasswordForm
+from form import Form, SigninForm, SignUpForm, LoginForm, CartRemoveForm, PayForm, VerifyForm, ResetPasswordForm, ShippingAddressEditForm
 from itsdangerous import URLSafeTimedSerializer
 from flask_mail import Mail, Message
 import os
@@ -148,6 +148,22 @@ def send_mail(to, subject, html_msg):
     msg.body = html_msg
     mail.send(msg)
     print("Message sent")
+
+
+@app.before_request
+def track_history():
+    # Skip if the request is AJAX or the request method is not GET
+    if request.endpoint == 'static' or request.method != 'GET':
+        return
+    # Get the current history list from session
+    history = session.get('history', [])
+    # Add the current URL to the history list
+    history.append(request.url)
+    # Keep only the last three URLs
+    if len(history) > 3:
+        history.pop(0)
+    # Save the updated history back to the session
+    session['history'] = history
 
 
 @app.route("/", methods=["GET", "POST"])
@@ -393,7 +409,6 @@ def signup():
     form.country.choices = ['Afghanistan', 'Albania', 'Algeria', 'Andorra', 'Angola', 'Antigua & Deps', 'Argentina', 'Armenia', 'Australia', 'Austria', 'Azerbaijan', 'Bahamas', 'Bahrain', 'Bangladesh', 'Barbados', 'Belarus', 'Belgium', 'Belize', 'Benin', 'Bermuda', 'Bhutan', 'Bolivia', 'Bosnia Herzegovina', 'Botswana', 'Brazil', 'Brunei', 'Bulgaria', 'Burkina', 'Burundi', 'Cambodia', 'Cameroon', 'Canada', 'Cape Verde', 'Central African Rep', 'Chad', 'Chile', 'China', 'Colombia', 'Comoros', 'Congo', 'Congo (Democratic Rep)', 'Costa Rica', 'Croatia', 'Cuba', 'Cyprus', 'Czech Republic', 'Denmark', 'Djibouti', 'Dominica', 'Dominican Republic', 'East Timor', 'Ecuador', 'Egypt', 'El Salvador', 'Equatorial Guinea', 'Eritrea', 'Estonia', 'Eswatini', 'Ethiopia', 'Fiji', 'Finland', 'France', 'Gabon', 'Gambia', 'Georgia', 'Germany', 'Ghana', 'Greece', 'Grenada', 'Guatemala', 'Guinea', 'Guinea-Bissau', 'Guyana', 'Haiti', 'Honduras', 'Hungary', 'Iceland', 'India', 'Indonesia', 'Iran', 'Iraq', 'Ireland (Republic)', 'Israel', 'Italy', 'Ivory Coast', 'Jamaica', 'Japan', 'Jordan', 'Kazakhstan', 'Kenya', 'Kiribati', 'Korea North', 'Korea South', 'Kosovo', 'Kuwait', 'Kyrgyzstan', 'Laos', 'Latvia', 'Lebanon', 'Lesotho', 'Liberia', 'Libya', 'Liechtenstein', 'Lithuania', 'Luxembourg', 'Macedonia', 'Madagascar', 'Malawi', 'Malaysia', 'Maldives', 'Mali', 'Malta', 'Marshall Islands', 'Mauritania', 'Mauritius', 'Mexico', 'Micronesia', 'Moldova', 'Monaco', 'Mongolia', 'Montenegro', 'Morocco', 'Mozambique', 'Myanmar', 'Namibia', 'Nauru', 'Nepal', 'Netherlands', 'New Zealand', 'Nicaragua', 'Niger', 'Nigeria', 'Norway', 'Oman', 'Pakistan', 'Palau', 'Palestine', 'Panama', 'Papua New Guinea', 'Paraguay', 'Peru', 'Philippines', 'Poland', 'Portugal', 'Qatar', 'Romania', 'Russian Federation', 'Rwanda', 'St Kitts & Nevis', 'St Lucia', 'Saint Vincent & the Grenadines', 'Samoa', 'San Marino', 'Sao Tome & Principe', 'Saudi Arabia', 'Senegal', 'Serbia', 'Seychelles', 'Sierra Leone', 'Singapore', 'Slovakia', 'Slovenia', 'Solomon Islands', 'Somalia', 'South Africa', 'South Sudan', 'Spain', 'Sri Lanka', 'Sudan', 'Suriname', 'Sweden', 'Switzerland', 'Syria', 'Taiwan', 'Tajikistan', 'Tanzania', 'Thailand', 'Togo', 'Tonga', 'Trinidad & Tobago', 'Tunisia', 'Turkey', 'Turkmenistan', 'Tuvalu', 'Uganda', 'Ukraine', 'United Arab Emirates', 'United Kingdom', 'United States', 'Uruguay', 'Uzbekistan', 'Vanuatu', 'Vatican City', 'Venezuela', 'Vietnam', 'Yemen', 'Zambia', 'Zimbabwe']
     form.state.choices = ['Abuja (FCT)', 'Abia', 'Adamawa', 'Akwa Ibom', 'Anambra', 'Bauchi', 'Bayelsa', 'Benue', 'Borno', 'Cross River', 'Delta', 'Ebonyi', 'Edo', 'Ekiti', 'Enugu', 'Gombe', 'Imo', 'Jigawa', 'Kaduna', 'Kano', 'Katsina', 'Kebbi', 'Kogi', 'Kwara', 'Lagos', 'Nasarawa', 'Niger', 'Ogun', 'Ondo', 'Osun', 'Oyo', 'Plateau', 'Rivers', 'Sokoto', 'Taraba', 'Yobe', 'Zamfara']
     if form.validate_on_submit():
-    # if request.method == "POST":
         if form.password.data != form.confirm.data:
             flash("Password doesn't match")
             return render_template('signup', form=form)
@@ -429,6 +444,42 @@ def signup():
         flash("A confirmation email has been sent via email", "success")
         return redirect(url_for('unconfirmed'))
     return render_template('signup.html', form=form, logged_in=current_user.is_authenticated, user=current_user, year=year)
+
+
+@app.route('/profile/<idx>', methods=["GET"])
+@login_required
+def profile(idx):
+    return render_template('profile.html', logged_in=current_user.is_authenticated, user=current_user, year=year)
+
+
+@app.route('/address/<idx>', methods=["GET", "POST", "PATCH"])
+@login_required
+def edit_address(idx):
+    form = ShippingAddressEditForm()
+    user = db.session.execute(db.select(User).where(User.id == idx)).scalar()
+    form.country.data = user.country
+    form.state.data = user.state
+    form.localgovt.data = user.localgovt
+    form.city.data = user.city
+    form.address.data = user.address
+    if form.validate_on_submit():
+        form = ShippingAddressEditForm()
+        user.country = form.country.data
+        user.state = form.state.data
+        user.localgovt = form.localgovt.data
+        user.city = form.city.data
+        user.address = form.address.data
+        db.session.commit()
+        flash("Shipping Address is successfully Edited", "success")
+
+        # Get the history from the session
+        history = session.get('history', [])
+        # Determine the two-step-back URL
+        two_steps_back = history[-2] if len(history) >= 3 else url_for('index')
+
+        return redirect(two_steps_back)
+        # return redirect(url_for('profile', idx=current_user.id))
+    return render_template('address_edit.html', form=form, logged_in=current_user.is_authenticated, user=current_user, year=year)
 
 
 @app.route('/confirm/<token>', methods=["GET", "POST", "PATCH"])
