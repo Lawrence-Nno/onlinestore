@@ -308,13 +308,10 @@ def checkout():
     """
     total = request.args.get('total', 0)
     form = PayForm()
-    form.amount.data = total
-    print(form.amount.data)
     if request.method == "POST":
-        print(form.amount.data)
         data = {
-            "amount": form.amount.data,  # 500000
-            "email": form.email.data,  # "customer@example.com"
+            "amount": total,  # 500000
+            "email": current_user.email,  # "customer@example.com"
             "callback_url": url_for('verify', _external=True),
         }
         response = requests.post(url, headers=headers, json=data)
@@ -337,7 +334,7 @@ def checkout():
         return_url = url_for('verify', code=data['data']['reference'], _external=True)
         checkout_url = data['data']['authorization_url']
         return redirect(checkout_url)
-    return render_template('checkout.html', form=form, logged_in=current_user.is_authenticated, user=current_user, year=year)
+    return render_template('checkout.html', form=form, logged_in=current_user.is_authenticated, user=current_user, year=year, total=total)
 
 
 @app.route('/verify', methods=["GET", "POST"])
