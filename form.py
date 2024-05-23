@@ -42,13 +42,11 @@ class SigninForm(FlaskForm):
 
 
 class PayForm(FlaskForm):
-    email = EmailField(label="Email", render_kw={"class": "form-control"})
-    amount = StringField(label="Amount", render_kw={"class": "form-control-plaintext", "readonly": True})
-    submit = SubmitField(label="pay")
+    submit = SubmitField(label="pay", render_kw={'class': 'btn btn-outline-success btn-lg pay-btn'})
 
 
 class VerifyForm(FlaskForm):
-    submit = SubmitField(label='verify')
+    submit = SubmitField(label='verify', render_kw={'class': 'btn btn-outline-success btn-lg'})
 
 
 class CartRemoveForm(FlaskForm):
