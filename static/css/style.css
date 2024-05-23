@@ -169,7 +169,7 @@ footer{
     height: 60px;
     object-fit: contain;
 }
-.table{
+.table.items{
     width: 60%;
     float: left;
     margin-top: 1rem;
@@ -266,6 +266,23 @@ footer{
     color: #47d147;
     font-weight: 600;
 }
+/************************** VERIFY PAGE ********************/
+.verify-btn{
+    margin-top: 30vh;
+}
+/************************* CHECKOUT PAGE *******************/
+.checkout-div{
+    width: 50%;
+}
+
+.table.checkout-table{
+    margin-top: 1rem;
+}
+
+.pay-btn{
+    font-weight: 700;
+}
+/************************** PAY PAGE **************************/
 
 /***************************** MEDIA QUERIES ***********************/
 
@@ -323,5 +340,17 @@ footer{
 /************************ LOGIN PAGE **********************/
 .loginform{
     width: 80%;
+}
+/************************* CHECKOUT PAGE *******************/
+.checkout-div{
+    width: 100%;
+}
+
+.table.checkout-table{
+    margin-top: 1rem;
+}
+
+.pay-btn{
+    font-weight: 700;
 }
 }
