@@ -1,11 +1,37 @@
 {% extends "header.html" %}
 {% block content %}
     <section id="checkout">
-      <form method="POST">
-        {{ form.hidden_tag() }}
-        {{ form.email.label }} {{ form.email }}
-        {{ form.amount.label }} {{ form.amount }}
-        {{ form.submit }}
-      </form>
+      <div class="container-fluid checkout-div">
+        <table class="table checkout-table">
+          <thead>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Name:</td>
+              <td>{{ current_user.firstname }} {{ current_user.lastname }}</td>
+            </tr>
+            <tr>
+              <td>Phone:</td>
+              <td>{{ current_user.phone }}</td>
+            </tr>
+            <tr>
+              <td>Email:</td>
+              <td>{{ current_user.email }}</td>
+            </tr>
+            <tr>
+              <td>Shipping Address:</td>
+              <td>{{ current_user.address }}, {{ current_user.city }}, {{ current_user.localgovt }}<br> {{ current_user.state }} State, {{ current_user.country }}.</td>
+            </tr>
+            <tr>
+              <td>Amount:</td>
+              <td>₦ {{ total }}</td>
+            </tr>
+          </tbody>
+        </table>
+        <form method="POST" class="text-center">
+          {{ form.hidden_tag() }}
+          {{ form.submit }}
+        </form>
+      </div>
     </section>
 {% endblock %}
