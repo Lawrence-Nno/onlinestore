@@ -32,11 +32,14 @@
               {{ form.confirm(id="passwords1") }}
               <i class="toggle-password" id="togglePasswords1">👁️</i>
             </div>
-            {{ form.country.label }} {{ form.country }}
-            {{ form.state.label }} {{ form.state }}
-            {{ form.localgovt }}
-            {{ form.city }}
-            {{ form.address }}
+            <fieldset>
+              <legend>Shipping Address</legend>
+              {{ form.country.label }} {{ form.country }}
+              {{ form.state.label }} {{ form.state }}
+              {{ form.localgovt }}
+              {{ form.city }}
+              {{ form.address }}
+            </fieldset>
             <div class="text-center d-grid gap-2 col-6 mx-auto">
               {{ form.submit }}
             </div>
