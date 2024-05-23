@@ -1,8 +1,10 @@
 {% extends "header.html" %}
 {% block content %}
     <section id="verify" class="text-center">
-      <form method="POST">
-        {{ form.submit }}
-      </form>
+      <div class="container-fluid verify-btn">
+        <form method="POST">
+            {{ form.submit }}
+        </form>
+      </div>
     </section>
 {% endblock %}
