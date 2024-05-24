@@ -76,3 +76,23 @@ document.addEventListener('DOMContentLoaded', () => {
         this.textContent = type === 'password' ? '👁️' : '👁️‍🗨️';
     });
 });
+
+
+// State Selection
+$(document).ready(function() {
+    $('#country').change(function() {
+        var country = $(this).val();
+        $.ajax({
+            url: '/get_states/' + country,
+            method: 'GET',
+            success: function(data) {
+                var stateSelect = $('#state');
+                stateSelect.empty();
+                stateSelect.append('<option value="">Select State</option>');
+                data.forEach(function(state) {
+                    stateSelect.append('<option value="' + state + '">' + state + '</option>');
+                });
+            }
+        });
+    });
+});
