@@ -188,6 +188,37 @@ def detail(idx):
     form = Form()
     product = db.session.execute(db.select(Product).where(Product.id == idx)).scalar()
     if product:
+        static_folder = os.path.join(app.root_path, 'static')
+        image_folder = os.path.join(app.root_path, 'static/hair_images')
+        video_folder = os.path.join(app.root_path, 'static/videos')
+        image_f = product.image.split('.')
+        image_format = image_f[0][12:-1]
+        image_files = []
+        for root, dirs, files in os.walk(image_folder):
+            for file in files:
+                if file.startswith(image_format):
+                    # Add the relative path of the image to the list
+                    rel_path = os.path.relpath(os.path.join(root, file), static_folder)
+                    rel_path = rel_path.replace("\\", "/")
+                    image_files.append(rel_path)
+                    print(image_files)
+        no_of_images = len(image_files)
+        images = [(num + 1, item) for num, item in enumerate(image_files)]
+
+        video_files = []
+        for root, dirs, files in os.walk(video_folder):
+            for file in files:
+                if file.startswith(image_format):
+                # if image_format in file:
+                    rel_path = os.path.relpath(os.path.join(root, file), static_folder)
+                    rel_path = rel_path.replace("\\", "/")
+                    video_files.append(rel_path)
+                    print(video_files)
+        if len(video_files) > 0:
+            videos = [(num + 1, item) for num, item in enumerate(video_files)]
+        else:
+            videos = None
+
         if request.method == "POST":
             item = db.session.execute(db.select(Cart).where(Cart.product_id == idx)).scalar()
             if item:
@@ -209,7 +240,7 @@ def detail(idx):
                 else:
                     return redirect(url_for('signin'))
             return redirect(url_for('detail', idx=idx))
-        return render_template('detail.html', product=product, logged_in=current_user.is_authenticated, user=current_user, form=form, year=year)
+        return render_template('detail.html', product=product, logged_in=current_user.is_authenticated, user=current_user, form=form, year=year, images=images, videos=videos, no_of_images=no_of_images)
     else:
         abort(404)
 
@@ -660,7 +691,7 @@ def filter_hair(hairstyle):
                            user=current_user, year=year)
 
 
-@app.route('/admin')
+@app.route('/admin/')
 @login_required
 @admin_decorator
 def admin_panel():
