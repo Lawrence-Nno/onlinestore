@@ -1,5 +1,6 @@
 from flask import Flask, request, redirect, render_template, url_for, flash, abort, session, jsonify
 from flask_admin import Admin, BaseView
+from flask_session import Session
 import os.path as op
 import requests
 from flask_login import LoginManager, login_user, logout_user, current_user, login_required
@@ -19,6 +20,8 @@ from Country_States import countries_states
 
 # Setting up the flask app
 app = Flask(__name__)
+app.config['SESSION_TYPE'] = 'filesystem'
+Session(app)
 app.wsgi_app = HTTPMethodOverrideMiddleware(app.wsgi_app)
 
 # Connecting the app to the database
@@ -28,8 +31,8 @@ app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///store.db"
 app.config['FLASK_ADMIN_SWATCH'] = 'cerulean'
 
 # App's secret key to enable CSRF Protection
-app.secret_key = os.environ['SECRET_KEY']
-app.config['SECURITY_PASSWORD_SALT'] = os.environ['SECURITY_PASSWORD_SALT']
+app.secret_key = os.getenv('SECRET_KEY', '')
+app.config['SECURITY_PASSWORD_SALT'] = os.getenv('SECURITY_PASSWORD_SALT', '')
 
 # Enabling and initializing Flask's logging manager
 login_manager = LoginManager()
@@ -41,10 +44,10 @@ db.init_app(app)
 migrate = Migrate(app, db)
 
 # Configuring the app with Mail settings
-app.config['MAIL_SERVER'] = os.environ['MAIL_SERVER']
+app.config['MAIL_SERVER'] = os.getenv('MAIL_SERVER', '')
 app.config['MAIL_PORT'] = 465
-app.config['MAIL_USERNAME'] = os.environ['EMAIL']
-app.config['MAIL_PASSWORD'] = os.environ['PWD']
+app.config['MAIL_USERNAME'] = os.getenv('EMAIL', '')
+app.config['MAIL_PASSWORD'] = os.getenv('PWD', '')
 app.config['MAIL_USE_TLS'] = False
 app.config['MAIL_USE_SSL'] = True
 mail = Mail(app)
@@ -53,9 +56,9 @@ year = datetime.now().strftime("%Y")
 
 
 # Paystack Api Keys and urls for payment gateway
-paystack_secret_key = os.environ['PAYSTACK_SECRET']
-paystack_public_key = os.environ['PAYSTACK_PUBLIC']
-url = os.environ['PAYSTACK_URL']
+paystack_secret_key = os.getenv('PAYSTACK_SECRET', '')
+paystack_public_key = os.getenv('PAYSTACK_PUBLIC', '')
+url = os.getenv('PAYSTACK_URL', '')
 headers = {
     "Authorization": f"Bearer {paystack_secret_key}",
     "Content-Type": "application/json",
