@@ -6,7 +6,39 @@
           <div class="card-body-title">
             <h5 class="card-title">{{product.name}}</h5>
           </div>
-          <img src="{{ url_for('static', filename=product.image) }}" class="card-img-top" alt="...">
+          <div id="carouselDetail" class="carousel slide" data-ride="carousel">
+            <div class="carousel-indicators">
+                {% for idx, image in images %}
+                    <button type="button" data-bs-target="#carouselDetail" data-bs-slide-to="{{ idx - 1 }}" class="{{ 'active' if idx == 1 }}" aria-current="{{ 'true' if idx == 1 }}" aria-label="Slide {{ idx }}"></button>
+                {% endfor %}
+                {% for idx, video in videos %}
+                    <button type="button" data-bs-target="#carouselDetail" data-bs-slide-to="{{ no_of_images + idx - 1}}" aria-label="Slide {{ no_of_images + idx }}"></button>
+                {% endfor %}
+            </div>
+            <div class="carousel-inner">
+                {% for idx, image in images %}
+                    <div class="carousel-item {{ 'active' if idx == 1 }}">
+                        <img src="{{ url_for('static', filename=image) }}" class="d-block w-100 card-img-top" alt="...">
+                    </div>
+                {% endfor %}
+                {% for idx, video in videos %}
+                  <div class="carousel-item">
+                      <video width="640" height="360" controls>
+                        <source src="{{ url_for('static', filename=video) }}" class="d-block w-100 card-img-top" alt="Your browser does not support the video tag." type="video/mp4">
+                      </video>
+                  </div>
+                {% endfor %}
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselDetail" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+              </button>
+              <button class="carousel-control-next" type="button" data-bs-target="#carouselDetail" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+          </div>
+<!--          <img src="{{ url_for('static', filename=product.image) }}" class="card-img-top" alt="...">-->
           <div class="card-body">
             <h5 class="card-title mb-2 text-body-secondary">₦{{product.price}}</h5>
             <form method="POST">
