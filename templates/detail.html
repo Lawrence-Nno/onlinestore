@@ -11,9 +11,11 @@
                 {% for idx, image in images %}
                     <button type="button" data-bs-target="#carouselDetail" data-bs-slide-to="{{ idx - 1 }}" class="{{ 'active' if idx == 1 }}" aria-current="{{ 'true' if idx == 1 }}" aria-label="Slide {{ idx }}"></button>
                 {% endfor %}
+                {% if videos: %}
                 {% for idx, video in videos %}
                     <button type="button" data-bs-target="#carouselDetail" data-bs-slide-to="{{ no_of_images + idx - 1}}" aria-label="Slide {{ no_of_images + idx }}"></button>
                 {% endfor %}
+                {% endif %}
             </div>
             <div class="carousel-inner">
                 {% for idx, image in images %}
@@ -21,6 +23,7 @@
                         <img src="{{ url_for('static', filename=image) }}" class="d-block w-100 card-img-top" alt="...">
                     </div>
                 {% endfor %}
+                {% if videos: %}
                 {% for idx, video in videos %}
                   <div class="carousel-item">
                       <video width="640" height="360" controls>
@@ -28,6 +31,7 @@
                       </video>
                   </div>
                 {% endfor %}
+                {% endif %}
             </div>
             <button class="carousel-control-prev" type="button" data-bs-target="#carouselDetail" data-bs-slide="prev">
                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
