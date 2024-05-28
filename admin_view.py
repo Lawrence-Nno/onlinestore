@@ -33,7 +33,7 @@ class ProductView(ModelView):
     }
     column_searchable_list = ['name', 'price', 'desc', 'image']
     column_filters = ['price']
-    column_editable_list = ['price', 'name']
+    column_editable_list = ['price', 'name', 'image']
 
     def is_accessible(self):
         return current_user.is_authenticated and (
