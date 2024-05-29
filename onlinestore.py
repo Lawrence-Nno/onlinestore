@@ -47,7 +47,7 @@ migrate = Migrate(app, db)
 app.config['MAIL_SERVER'] = os.getenv('MAIL_SERVER', '')
 app.config['MAIL_PORT'] = 465
 app.config['MAIL_USERNAME'] = os.getenv('EMAIL', '')
-app.config['MAIL_PASSWORD'] = os.getenv('PWD', '')
+app.config['MAIL_PASSWORD'] = os.getenv('EMAIL_PASSWORD', '')
 app.config['MAIL_USE_TLS'] = False
 app.config['MAIL_USE_SSL'] = True
 mail = Mail(app)
@@ -223,15 +223,15 @@ def detail(idx):
             videos = None
 
         if request.method == "POST":
-            item = db.session.execute(db.select(Cart).where(Cart.product_id == idx)).scalar()
-            if item:
-                method = "PATCH"
-                if method in ["GET", "POST", "PATCH"]:
-                    item.quantity += 1
-                    item.subtotal = item.quantity * product.price
-                    db.session.commit()
-            else:
-                if current_user.is_authenticated:
+            if current_user.is_authenticated:
+                item = db.session.execute(db.select(Cart).where(Cart.product_id == idx)).scalar()
+                if item:
+                    method = "PATCH"
+                    if method in ["GET", "POST", "PATCH"]:
+                        item.quantity += 1
+                        item.subtotal = item.quantity * product.price
+                        db.session.commit()
+                else:
                     item = Cart(
                         quantity=1,
                         subtotal=product.price,
@@ -240,8 +240,8 @@ def detail(idx):
                     )
                     db.session.add(item)
                     db.session.commit()
-                else:
-                    return redirect(url_for('signin'))
+            else:
+                return redirect(url_for('signin'))
             return redirect(url_for('detail', idx=idx))
         return render_template('detail.html', product=product, logged_in=current_user.is_authenticated, user=current_user, form=form, year=year, images=images, videos=videos, no_of_images=no_of_images)
     else:
