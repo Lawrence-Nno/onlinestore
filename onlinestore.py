@@ -449,7 +449,7 @@ def signup():
 
         existing_user = db.session.execute(db.select(User).where(User.email == form.email.data.lower())).scalar()
         if existing_user:
-            flash("Email is already in use. Please login instead.")
+            flash("Email is already in use. Please login instead.", "warning")
             return redirect(url_for('login', email=form.email.data))
 
         password = generate_password_hash(form.password.data, method='scrypt', salt_length=16)
